@@ -7,3 +7,4 @@ git clone https://github.com/Sudha2804/hello-world-war.git
 cd hello-world-war
 mvn clean package
 ls
+ls
