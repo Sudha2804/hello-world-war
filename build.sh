@@ -8,3 +8,4 @@ cd hello-world-war
 mvn clean package
 ls
 ls
+echo "$1 $2"
