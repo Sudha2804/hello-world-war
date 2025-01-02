@@ -17,9 +17,8 @@ pipeline {
  stage('deploy') {
            steps {
            echo '"deploying hello-world-war application"'
-    sh 'cd /home/ubuntu/apache-tomcat-10.1.34/webapps'
-              sh 'cp /opt/jenkins/workspace/newjob/hello-world-war/target/hello-world-war-1.0.0.war .'
-               sh 'cd /home/ubuntu/apache-tomcat-10.1.34/bin'
+    sh 'scp /opt/jenkins/workspace/newjob/src/main/webapp/newjob/hello-world-war/target/hello-world-war-1.0.0.war ubuntu@/3.109.209.17:home/ubuntu/apache-tomcat-10.1.34/webapps'
+        sh 'cd /home/ubuntu/apache-tomcat-10.1.34/bin'
             sh './shutdown'
             sh './startup'
    }
