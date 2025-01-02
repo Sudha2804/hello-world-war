@@ -16,12 +16,28 @@ pipeline {
      }
  stage('deploy') {
            steps {
-              sh 'cd /home/ubuntu/apache-tomcat-10.1.34/webapps'
-              sh 'cp /home/ubuntu/hello-world-war/target/hello-world-war-1.0.0.war .'
+           echo '"deploying hello-world-war application"'
+    sh 'cd /home/ubuntu/apache-tomcat-10.1.34/webapps'
+              sh 'cp /opt/jenkins/workspace/newjob/hello-world-war/target/hello-world-war-1.0.0.war .'
                sh 'cd /home/ubuntu/apache-tomcat-10.1.34/bin'
             sh './shutdown'
             sh './startup'
    }
+   post {
+        always {
+            sh 'echo "Cleaning up..."'
+        }
+        
+        success {
+            mail to: 'sudha.gc28@gmail.com',
+                 subject: 'Pipeline Succeeded',
+                 body: 'Your Jenkins Pipeline has completed successfully.'
+        }
+        
+        failure {
+            mail to: 'sudha.gc28@gmail.com',
+                 subject: 'Pipeline Failed',
+                 body: 'Your Jenkins Pipeline has failed. Please investigate.'
 }
 }
 }
