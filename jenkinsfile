@@ -4,7 +4,8 @@ pipeline {
         choice(name: 'ch', choices: ['One', 'Two', 'Three'], description: 'Pick something')
 
      }
-    agent any 
+    agent { label 'jenkins-slave2' }
+{
     stages {
         stage('checkout') {
             steps {
