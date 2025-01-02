@@ -27,7 +27,7 @@ post {
             mail(
                 to: 'your-email@example.com',
                 subject: "Jenkins Build Success: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
-                body: "Good news! The build for ${env.JOB_NAME} - Build #${env.BUILD_NUMBER} was successful. \n" +
+                body: "Good news! The build for ${env.JOB_NAME} - Build #${env.BUILD_NUMBER} was successful. \n\n" +
                       "View the details here: ${env.BUILD_URL}"
             )
         }
