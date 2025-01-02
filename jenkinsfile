@@ -32,7 +32,7 @@ post {
             )
         }
         failure {
-            echo 'Pipeline failed. Please check
+            echo 'Pipeline failed, Please check'
     post {
         success {
             echo 'Pipeline completed successfully.'
@@ -44,6 +44,6 @@ post {
             )
         }
         failure {
-            echo 'Pipeline failed. Please check
+            echo 'Pipeline failed. Please check'
 sudha g c
 }
