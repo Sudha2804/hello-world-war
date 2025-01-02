@@ -47,7 +47,6 @@ post {
         }
         failure {
             echo 'Pipeline failed Please check'
-sudha g c
 }
 }
 }
