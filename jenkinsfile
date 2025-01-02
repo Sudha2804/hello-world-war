@@ -17,7 +17,8 @@ pipeline {
  stage('deploy') {
            steps {
 sh 'rm -rf hello-world-war-1.0.0.war'
- sh ' sudo scp /opt/jenkins/workspace/newjob/target/hello-world-war-1.0.0.war ubuntu@172.31.12.111:/home/ubuntu/apache-tomcat-10.1.34/webapps/'
+scp -o StrictHostKeyChecking=no 
+ sh ' sudo scp -o StrictHostKeyChecking=no /opt/jenkins/workspace/newjob/target/hello-world-war-1.0.0.war ubuntu@172.31.12.111:/home/ubuntu/apache-tomcat-10.1.34/webapps/'
       
    }
 
