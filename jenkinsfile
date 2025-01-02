@@ -23,6 +23,7 @@ pipeline {
             sh './shutdown'
             sh './startup'
    }
+}
    post {
         always {
             sh 'echo "Cleaning up..."'
