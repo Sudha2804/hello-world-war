@@ -24,19 +24,6 @@ pipeline {
             sh './startup'
    }
 }
-  stage ('post') {
-        always {
-            sh 'echo "Cleaning up..."'
-        }
-        
-        success {
-           sh 'mail to:sudha.gc28@gmail.com'
-                sh 'subject: Pipeline Succeeded'
-                sh 'body: Your Jenkins Pipeline has completed successfully.'
-        }
-        
 
-
-}
-}
+        }
 }
