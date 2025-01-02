@@ -16,9 +16,9 @@ pipeline {
      }
  stage('deploy') {
            steps {
-              sh 'cd /var/lib/jenkins/workspace/newjob/apache-tomcat-10.1.34/webapps/'
+              sh 'cd /home/ubuntu/apache-tomcat-10.1.34/webapps'
               sh 'cp /home/ubuntu/hello-world-war/target/hello-world-war-1.0.0.war .'
-               sh 'cd bin/'
+               sh 'cd /home/ubuntu/apache-tomcat-10.1.34/bin'
             sh './shutdown'
             sh './startup'
    }
