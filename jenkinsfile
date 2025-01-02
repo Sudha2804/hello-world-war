@@ -24,7 +24,7 @@ pipeline {
             sh './startup'
    }
 }
-   post {
+  stage ('post') {
         always {
             sh 'echo "Cleaning up..."'
         }
