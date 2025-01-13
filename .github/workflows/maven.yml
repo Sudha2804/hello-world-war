@@ -18,8 +18,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
-   steps:
+steps:
       # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -42,3 +41,4 @@ jobs:
       # Build the project with Maven
       - name: Build with Maven
         run: mvn clean install
+   
