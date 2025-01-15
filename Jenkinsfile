@@ -2,8 +2,9 @@ pipeline {
     agent any
     environment {
                Sample_creds = credentials('deploy_cred')
-      }
-    stage { 
+    }
+    stages
+    { 
         stage('Deploy') {
     steps {
                
