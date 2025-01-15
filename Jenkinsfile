@@ -13,7 +13,7 @@ pipeline {
                 sudo su 
                 cd /opt/apache-tomcat-10.1.34/webapps
                 ls
-                curl -L -u "deploy_cred_USR:deploy_cred_PWD" -O "http://43.205.237.112:8082/artifactory/hello-world-war-libs-release/com/efsavage/hello-world-war/1.0.24/hello-world-war-1.0.24.war"
+                curl -L -u "deploy_cred_USR:deploy_cred_PWD" -O "http://13.235.244.58:8082/artifactory/hello-world-war-libs-release/com/efsavage/hello-world-war/1.0.24/hello-world-war-1.0.24.war"
                 pwd
                 cd /opt/apache-tomcat-10.1.34/bin
                 ./shutdown.sh
