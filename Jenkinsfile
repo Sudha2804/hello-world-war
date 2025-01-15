@@ -10,8 +10,8 @@ pipeline {
                 sh """
                 #!/bin/bash
                 sleep 5
-                sudo su
-                cd /root/apache-tomcat-10.1.34/webapps
+                sudo su -
+                cd apache-tomcat-10.1.34/webapps
                 ls
                 curl -L -u "deploy_cred_crd_USR:deploy_cred_PWD" -O "http://43.205.237.112:8082/artifactory/hello-world-war-libs-release/com/efsavage/hello-world-war/1.0.24/hello-world-war-1.0.24.war"
                 pwd
