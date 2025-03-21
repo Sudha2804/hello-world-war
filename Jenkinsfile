@@ -77,7 +77,7 @@ pipeline {
         }
     }
 
-    post {docker_hub_token
+    post {docker_hub_token}
         always {
             echo "Pipeline completed!"
         }
