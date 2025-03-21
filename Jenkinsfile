@@ -1,92 +1,47 @@
 pipeline {
-    agent any
+    agent { label 'slave' }
 
     environment {
-        DOCKER_REPO = "sudha2804/hello-world-war"
-        DOCKER_TAG = "latest"
-        CONTAINER_NAME = "hello-world-container"
+        DOCKER_IMAGE = "sudha2804/hello-world-war:${BUILD_NUMBER}"
     }
 
     stages {
-
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                echo 'Cloning repository...'
+                echo 'Checking out code...'
                 checkout scm
-            }
-        }
-
-        stage('Find Dockerfile') {
-            steps {
-                script {
-                    echo "Searching for Dockerfile..."
-                    def dockerfilePath = sh(script: "find . -name 'Dockerfile' | head -n 1", returnStdout: true).trim()
-                    
-                    if (dockerfilePath) {
-                        echo "Dockerfile found at: ${dockerfilePath}"
-                        env.DOCKERFILE_PATH = dockerfilePath
-                    } else {
-                        error "Dockerfile not found in repository!"
-                    }
-                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                echo "Building Docker image from ${DOCKERFILE_PATH}..."
-                sh "docker build -t ${DOCKER_REPO}:${DOCKER_TAG} -f ${DOCKERFILE_PATH} ."
-            }
-        }
-
-        stage('Login to Docker Hub') {
-            environment {
-                DOCKER_HUB_USER = credentials('docker_hub_user')    // Jenkins credentials ID for username
-                DOCKER_HUB_PASS = credentials('docker_hub_pass')    // Jenkins credentials ID for password
-            }
-            steps {
-                echo 'Logging in to Docker Hub...'
-                sh """
-                echo ${DOCKER_HUB_PASS} | docker login -u ${DOCKER_HUB_USER} --password-stdin
-                """
+                script {
+                    echo 'Building Docker image...'
+                    sh "docker build -t $DOCKER_IMAGE ."
+                }
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                echo 'Pushing Docker image to Docker Hub...'
-                sh "docker push ${DOCKER_REPO}:${DOCKER_TAG}"
+                script {
+                    echo 'Logging into Docker registry...'
+                    echo 'Pushing Docker image to registry...'
+                    sh "docker push $DOCKER_IMAGE"
+                }
             }
         }
 
-        stage('Remove Existing Container') {
+        stage('Deploy on Server') {
             steps {
-                echo 'Removing old container (if exists)...'
-                sh """
-                docker rm -f ${CONTAINER_NAME} || true
-                """
+                script {
+                    echo 'Pulling Docker image on deployment server...'
+                    sh "ssh -i ~/.ssh/id_ed25519 root@ip-172-31-15-197 'docker pull $DOCKER_IMAGE'"
+                    sh "ssh -i ~/.ssh/id_ed25519 root@ip-172-31-15-197 'docker stop my-container || true'"
+                    sh "ssh -i ~/.ssh/id_ed25519 root@ip-172-31-15-197 'docker rm my-container || true'"
+                    sh "ssh -i ~/.ssh/id_ed25519 root@ip-172-31-15-197 'docker run -d --name my-container -p 8080:8080 $DOCKER_IMAGE'"
+                }
             }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                echo 'Running Docker container...'
-                sh """
-                docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${DOCKER_REPO}:${DOCKER_TAG}
-                """
-            }
-        }
-    }
-
-    post {
-        always {
-            echo "Pipeline completed!"
-        }
-        success {
-            echo "Container running at http://localhost:8080"
-        }
-        failure {
-            echo "Pipeline failed!"
         }
     }
 }
