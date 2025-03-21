@@ -71,13 +71,13 @@ pipeline {
             steps {
                 echo 'Running Docker container...'
                 sh """
-                docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${DOCKER_REPO}:${DOCKER_TAG}
+                docker run -d --name ${CONTAINER_NAME} -p 8090:8080 ${DOCKER_REPO}:${DOCKER_TAG}
                 """
             }
         }
     }
 
-    post {
+    post {docker_hub_token
         always {
             echo "Pipeline completed!"
         }
